@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+
+<style>
+body {
+  font-family: "Lato", sans-serif;
+
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  text-align:center;
+  opacity:85%;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 40px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+
+}
+
+.sidenav a:hover{
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 35px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+
+<div id="mySidenav" class="sidenav">
+
+  <a href="javascript:void(0)" class="closebtn w3-xxlarge" onclick="closeNav()">&times;</a>
+
+ <div class="w3-padding w3-xxxlarge ">
+  
+  <a href="{{ url_for('landbot') }}"> <i class="glyphicon glyphicon-home"></i> Home</a>
+  <a href="{{ url_for('profile') }}"> <i class="glyphicon glyphicon-user"></i> Profile</a>
+  <!-- <a href="#"><i class="glyphicon glyphicon-file"></i> Contact</a> -->
+  <a href="{{ url_for('contact') }}"><i class="glyphicon glyphicon-file"></i>Contact</a>
+  <a href="{{ url_for('home') }}"  onclick="mainApp.logout();"><i class="glyphicon glyphicon-remove"></i> Logout</a>
+</div>
+</div>
+
+
+<span style="font-size:30px;cursor:pointer;padding-left:2%;" onclick="openNav()">&#9776; </span>
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+  <script SameSite="None; Secure" src="https://static.landbot.io/landbot-3/landbot-3.0.0.js"></script>
+<div id="myLandbot" style="width: 100%; height: 630px"></div>
+<script>
+  var myLandbot = new Landbot.Container({
+    container: '#myLandbot',
+    configUrl: 'https://chats.landbot.io/v3/H-865649-PUBKJTXCTWUK2F4C/index.json',
+  });
+</script>
+
+<script>
+  var fireBase = fireBase || firebase;
+var hasInit = false;
+var config = {
+  apiKey: "AIzaSyBgQLq6_uKf3Ml6i-lEa8SOC2o2uwmJ9Mo",
+  authDomain: "fooodie-9952e.firebaseapp.com",
+  databaseURL: "https://fooodie-9952e-default-rtdb.firebaseio.com",
+  projectId: "fooodie-9952e",
+  storageBucket: "fooodie-9952e.appspot.com",
+  messagingSenderId: "712752662262",
+  appId: "1:712752662262:web:ef494a57344b4f550e0ed7",
+  };
+if(!hasInit){
+    firebase.initializeApp(config);
+    hasInit = true;
+}
+
+</script>
+<script>
+  var mainApp = {};
+(function(){
+var mainContainer = document.getElementById("main_container");
+
+    var logtout =  function(){
+        firebase.auth().signOut().then(function(){
+            console.log('success');
+            window.location.replace("{{ url_for('home') }}");
+        },function(){})
+    }
+
+var init = function(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          console.log("stay");
+          mainContainer.style.display = "";
+        } else {
+          // No user is signed in.
+          mainContainer.style.display = "none";
+          console.log("redirect");
+          window.location.replace("{{ url_for('home') }}");
+        }
+      });
+}
+    
+init();
+
+mainApp.logout = logtout;
+})();
+</script>
+   
+</body>
+</html>

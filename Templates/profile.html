@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase-auth.js"></script>
+
+<style>
+body {
+  font-family: "Lato", sans-serif;
+  background-color:rgb(230, 253, 253);
+
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  text-align:center;
+  opacity:85%;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 40px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+
+}
+
+.sidenav a:hover{
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 35px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    width: 100%;
+}
+
+h1{
+    font-family: sans-serif;
+    text-align: center;
+    font-size: 30px;
+    color: #222;
+}
+
+.profile-pic-div{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid grey;
+}
+
+#photo{
+    height: 100%;
+    width: 100%;
+    color: #3fb6a8;
+}
+
+#file{
+    display: none;
+}
+
+#uploadBtn{
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: wheat;
+    line-height: 30px;
+    font-family: sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+
+
+
+
+.container{
+  background:#fff;
+  width:80%;
+  height: 95%;
+  margin:0 auto;
+  position: relative;
+  margin-top:2%;
+  box-shadow:2px 5px 20px
+  rgba(119,119,119,.5);
+}
+
+.profile{
+  width:80%;
+  margin-left:20%;
+}
+.prfiletab{
+  transition: all .5s ease-in;
+  width: 80%;
+}
+
+h2{
+  color:#777;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-size:15px;
+  letter-spacing:1px;
+  margin-left: 2px;
+  margin-top: 10px;
+}
+.input,p{
+  border: 0;
+  border-bottom: 1px solid #3fb6a8;
+  width:80%;
+  font-family: sans-serif;
+  font-size: 15px;
+  padding:7px 0;
+  color: #070707;
+  outline: none;
+}
+.btn{
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-size: 15px;
+  border: 0px;
+  color:#fff;
+  background:#7ed386;
+  padding:7px 15px;
+  box-shadow:0px 2px 4px 0px 
+  rgba(0,0,0,0.2);
+  cursor:pointer;
+  margin-top:15px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="mySidenav" class="sidenav">
+
+  <a href="javascript:void(0)" class="closebtn w3-xxlarge" onclick="closeNav()">&times;</a>
+
+ <div class="w3-padding w3-xxxlarge ">
+  
+    <a href="{{ url_for('landbot') }}"> <i class="glyphicon glyphicon-home"></i> Home</a>
+  <a href="{{ url_for('profile') }}"> <i class="glyphicon glyphicon-user"></i> Profile</a>
+  <!-- <a href="#"><i class="glyphicon glyphicon-file"></i> Contact</a> -->
+  <a href="{{ url_for('contact') }}"><i class="glyphicon glyphicon-file"></i>Contact</a>
+ <a href="{{ url_for('home') }}" onclick="mainApp.logout();"><i class="glyphicon glyphicon-remove"></i> Logout</a>
+</div>
+</div>
+
+<span style="font-size:30px;cursor:pointer;padding-left:2%;" onclick="openNav()">&#9776; </span>
+
+
+<div class="container">
+  <form >
+<div class="profile-pic-div">
+  <img src="image.jpg" id="photo">
+  <input type="file" name="file" id="file" value="<?php if(isset($_POST['file'])) {echo htmlentities($_POST['file']);}?>"/><br />
+  <label for="file" id="uploadBtn" type="submit">Choose Photo</label>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+  <div class="profile">
+    <br>
+    <div class="profiletab">
+
+      <br>
+      <br>
+      <br>
+      <br>
+     
+      <h2>Full Name</h2>
+      <input type="text" class="input" name="fame"  values="name">   
+      <h2>Phone no.</h2>
+      <input type="text" class="input" name="ph" values="Phone no." >    
+      <h2>Email</h2>
+      <input type="text" class="input" name="em" values="Email" >    
+      <h2>Address</h2>
+      <input type="text" class="input" name="add" values="Address" >
+      <br>  
+      <button type="submit" class="btn">UPDATE</button>  
+      
+    </div>
+  </div>
+  </form>
+</div>
+
+
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+
+
+
+
+//declearing html elements
+
+const imgDiv = document.querySelector('.profile-pic-div');
+const img = document.querySelector('#photo');
+const file = document.querySelector('#file');
+const uploadBtn = document.querySelector('#uploadBtn');
+
+//if user hover on img div 
+
+imgDiv.addEventListener('mouseenter', function(){
+    uploadBtn.style.display = "block";
+});
+
+//if we hover out from img div
+
+imgDiv.addEventListener('mouseleave', function(){
+    uploadBtn.style.display = "none";
+});
+
+//lets work for image showing functionality when we choose an image to upload
+
+//when we choose a foto to upload
+
+file.addEventListener('change', function(){
+    //this refers to file
+    const choosedFile = this.files[0];
+
+    if (choosedFile) {
+
+        const reader = new FileReader(); //FileReader is a predefined function of JS
+
+        reader.addEventListener('load', function(){
+            img.setAttribute('src', reader.result);
+        });
+
+        reader.readAsDataURL(choosedFile);
+
+     
+    }
+});
+
+</script>
+<script>
+  var fireBase = fireBase || firebase;
+var hasInit = false;
+var config = {
+  apiKey: "AIzaSyBgQLq6_uKf3Ml6i-lEa8SOC2o2uwmJ9Mo",
+  authDomain: "fooodie-9952e.firebaseapp.com",
+  databaseURL: "https://fooodie-9952e-default-rtdb.firebaseio.com",
+  projectId: "fooodie-9952e",
+  storageBucket: "fooodie-9952e.appspot.com",
+  messagingSenderId: "712752662262",
+  appId: "1:712752662262:web:ef494a57344b4f550e0ed7",
+  };
+if(!hasInit){
+    firebase.initializeApp(config);
+    hasInit = true;
+}
+
+</script>
+
+
+
+<script type="text/javascript">
+function formProcess(){
+  var capture = document.form[input]["fname"].value + '<br>';
+  capture += document.form[input]["ph"].value + '<br>';
+  capture += document.form[input]["em"].value + '<br>';
+  capture += document.form[input]["add"].value + '<br>';
+  document.getElementsByClassName("container").innerHTML=capture;
+}
+
+</script>
+
+<script>
+  var mainApp = {};
+(function(){
+var mainContainer = document.getElementById("main_container");
+
+    var logtout =  function(){
+        firebase.auth().signOut().then(function(){
+            console.log('success');
+            window.location.replace("{{ url_for('home') }}");
+        },function(){})
+    }
+
+var init = function(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          console.log("stay");
+          mainContainer.style.display = "";
+        } else {
+          // No user is signed in.
+          mainContainer.style.display = "none";
+          console.log("redirect");
+          window.location.replace("{{ url_for('home') }}");
+        }
+      });
+}
+    
+init();
+
+mainApp.logout = logtout;
+})();
+</script>
+   
+
+   
+</body>
+</html>

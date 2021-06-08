@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize:auto;
+}
+
+button[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://img5.goodfon.com/wallpaper/nbig/2/86/fastfud-burger-gamburger-pepsi-kola-kartofel-fri.jpg");
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+      <a href="{{ url_for('home') }}" class="w3-bar-item w3-button w3-wide"><img src= " https://drive.google.com/thumbnail?id=1nwf8mhQgH0H3ZPHcOZ0yPhOawZVnlsfO"></a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="{{ url_for('login') }}"  class="w3-bar-item w3-button">Sign in / Sign up</a>
+
+      <a href="{{ url_for('admin') }}"  class="w3-bar-item w3-button">Admin?</a>
+      <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+  <a href="{{ url_for('login') }}"  class="w3-bar-item w3-button">Sign in / Sign up</a>
+  <a href="{{ url_for('admin') }}"  class="w3-bar-item w3-button">Admin?</a>
+  <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">Contact</a>
+</nav>
+
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-left w3-text-white" style="padding:48px">
+    <span class="w3-jumbo w3-hide-small">Take a seat, grab a treat</span><br>
+    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Take a seat, grab a treat</span><br>
+    <span class="w3-large">To live a full life, you have to fill your stomach first.</span>
+    <p><a href="{{ url_for('login') }}" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off"> Chase the Flavours</a></p>
+  </div> 
+
+</header>
+
+
+
+<div class="w3-container w3-width:50%" id="contact">
+<div class="w3-center  ">
+    <h2>Contact Form</h2>
+    </div>
+            <div class="container ">
+                <form class="contact-form">
+                  <label for="name">Name</label>
+                  <input type="text" class="name" name="name" placeholder="Your name..">
+              
+                  <label for="phoneno">Phone_no.</label>
+                  <input type="text" class="phoneno" name="phoneno" placeholder="Your Phone no. ..">
+    
+                  <label for="email">Email</label>
+                  <input type="text" class="email" name="email" placeholder="Your email..">
+              
+                  <label for="subject">Subject</label>
+                  <textarea class="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+              
+                  <button type="submit">Submit</button>
+                </form>
+              </div>
+              </div>
+
+<br>
+
+
+<footer class="w3-center w3-black w3-padding-64">
+    <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+    <p>Powered by Fooodie-bot</p>
+  </footer>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase.js"></script>
+  <script>
+  
+ function w3_open() {
+    if (mySidebar.style.display === 'block') {
+      mySidebar.style.display = 'none';
+    } else {
+      mySidebar.style.display = 'block';
+    }
+  }
+  
+
+  // Close the sidebar with the close button
+  function w3_close() {
+      mySidebar.style.display = "none";
+  }
+
+
+// Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBgQLq6_uKf3Ml6i-lEa8SOC2o2uwmJ9Mo",
+    authDomain: "fooodie-9952e.firebaseapp.com",
+    databaseURL: "https://fooodie-9952e-default-rtdb.firebaseio.com",
+    projectId: "fooodie-9952e",
+    storageBucket: "fooodie-9952e.appspot.com",
+    messagingSenderId: "712752662262",
+    appId: "1:712752662262:web:ef494a57344b4f550e0ed7",
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+// Refernece contactInfo collections
+let contactInfo = firebase.database().ref("CONTACT");
+
+// Listen for a submit
+document.querySelector(".contact-form").addEventListener("submit", submitForm);
+
+function submitForm(e) {
+  e.preventDefault();
+
+  //   Get input Values
+  let name = document.querySelector(".name").value;
+  let phoneno = document.querySelector(".phoneno").value;
+  let email = document.querySelector(".email").value;
+  let subject = document.querySelector(".subject").value;
+  console.log(name, phoneno , email, subject);
+
+  saveContactInfo(name, phoneno, email, subject);
+
+  document.querySelector(".contact-form").reset();
+}
+
+// Save infos to Firebase
+function saveContactInfo(name, phoneno, email, subject) {
+  let newContactInfo = contactInfo.push();
+
+  newContactInfo.set({
+    name: name,
+    phoneno: phoneno,
+    email: email,
+    subject: subject,
+  });
+}
+
+
+  </script>
+  
+  </body>
+  </html>
